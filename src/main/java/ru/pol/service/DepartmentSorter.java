@@ -7,6 +7,8 @@ public class DepartmentSorter {
 
     public static String[] sortDepartmentCodesDesc(String[] departmentCodes) {
 
+        //Получаю Set всех значений кодов с учетом пропущенных
+
         Set<String> codes = new HashSet<>();
 
         for(String code : departmentCodes) {
@@ -16,7 +18,7 @@ public class DepartmentSorter {
             for(int i = 1; i <= temp.length; i++) {
 
                 String str = String.join("\\", Arrays.copyOf(temp, i));
-                codes.add(str); //Получаю Set всех значений кодов
+                codes.add(str);
             }
         }
 
@@ -30,10 +32,11 @@ public class DepartmentSorter {
 
     private static List<List<String>> sortCodesDesc(Set<String> codes) {
 
-        //из Set со всеми значениями кодов получаю List, содержащий списки всех кодов одинковой длины,
-        //чтобы была возможность отсортировать их по иерархии
-        //вышестоящим кодам добавлял нижестоящий с цифрой 200, чтобы длинна у всех была 3 и вышестоящий
-        //код сортировался наверх
+        //Из Set со всеми значениями кодов получаю List, содержащий списки всех кодов, приведенных к
+        //одинковой длине,чтобы была возможность сортировать их по иерархии в глубину
+        //Вышестоящим кодам, состаящим из только департамента или департамента и службы,
+        //добавлял нижестоящий с цифрой 99, чтобы вышестоящий код ранжировался выше
+
         List<List<String>> codesList = getModifiedLists(codes);
 
         Comparator<List<String>> sortingByDepartment = (l1, l2) -> l2.get(0).compareTo(l1.get(0));
@@ -56,12 +59,12 @@ public class DepartmentSorter {
 
             if(temp.length == 1) {
                 tempList.add(temp[0]);
-                tempList.add("SK200");
-                tempList.add("SSK200");
+                tempList.add("SK99");
+                tempList.add("SSK99");
             } else if(temp.length == 2) {
                 tempList.add(temp[0]);
                 tempList.add(temp[1]);
-                tempList.add("SSK200");
+                tempList.add("SSK99");
             } else {
                 tempList = Arrays.asList(temp);
             }
@@ -71,8 +74,9 @@ public class DepartmentSorter {
         return codesList;
     }
 
-    //в методе удалял добавленные раннее коды с цифрой 200, чтобы привести коды к
+    //в методе удалял добавленные раннее коды с цифрой 99, чтобы привести коды к
     //изначальному виду
+
     private static List<String> getOriginalSortedLists(List<List<String>> sortedCodesDesc) {
 
         List<String> originalSortedList = new ArrayList<>();
@@ -82,7 +86,7 @@ public class DepartmentSorter {
             StringBuilder sb = new StringBuilder();
 
             for (int j = 0; j < codes.size(); j++) {
-                if (!codes.get(j).contains("200")) {
+                if (!codes.get(j).contains("99")) {
                     if (j > 0) {
                         sb.append("\\");
                     }
