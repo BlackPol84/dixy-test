@@ -1,7 +1,6 @@
 package ru.pol.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DepartmentSorter {
 
@@ -22,21 +21,18 @@ public class DepartmentSorter {
             }
         }
 
-        List<String> sortedCodesDesc = sortCodesDesc(codes);
-        String[] sortedArrayDesc = new String[sortedCodesDesc.size()];
-        sortedCodesDesc.toArray(sortedArrayDesc);
-
-        return sortedArrayDesc;
+        return sortCodesDesc(codes);
     }
 
-    private static List<String> sortCodesDesc(Set<String> codes) {
+    private static String[] sortCodesDesc(Set<String> codes) {
 
         List<List<String>> codesList = getCodeList(codes);
         codesList.sort(new DepartmentCodesComparator());
 
-        return getOriginalLists(codesList);
+        return getOriginalSortedArray(codesList);
     }
 
+    //Преобразую Set кодов в List<List<String>> для последующей сортировки
     private static List<List<String>> getCodeList(Set<String> codes) {
         List<List<String>> codesList = new ArrayList<>();
 
@@ -52,12 +48,14 @@ public class DepartmentSorter {
         return codesList;
     }
 
-    private static List<String> getOriginalLists(List<List<String>> sortedCodesList) {
+    //Преобразую отсортированный List<List<String>> обратно в Array
+    private static String[] getOriginalSortedArray(List<List<String>> sortedCodesList) {
 
-        List<String> originalSortedList = new ArrayList<>();
+        String[] originalSortedArray = new String[sortedCodesList.size()];
 
-        for (List<String> codes : sortedCodesList) {
+        for (int i = 0; i < sortedCodesList.size(); i++) {
 
+            List<String> codes = sortedCodesList.get(i);
             StringBuilder sb = new StringBuilder();
 
             for (int j = 0; j < codes.size(); j++) {
@@ -66,8 +64,8 @@ public class DepartmentSorter {
                     }
                     sb.append(codes.get(j));
             }
-            originalSortedList.add(sb.toString());
+            originalSortedArray[i] = sb.toString();
         }
-        return originalSortedList;
+        return originalSortedArray;
     }
 }
