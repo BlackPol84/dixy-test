@@ -1,4 +1,4 @@
-package ru.pol.service;
+package ru.pol.util;
 
 import java.util.Comparator;
 import java.util.List;
