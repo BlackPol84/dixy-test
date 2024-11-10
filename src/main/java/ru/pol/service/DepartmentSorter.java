@@ -24,6 +24,8 @@ public class DepartmentSorter {
         return sortCodesDesc(codes);
     }
 
+    //выполняю сортировку преобразованного array в List<List<String>> и возврящаю
+    //отсортированный array
     private static String[] sortCodesDesc(Set<String> codes) {
 
         List<List<String>> codesList = getCodeList(codes);
