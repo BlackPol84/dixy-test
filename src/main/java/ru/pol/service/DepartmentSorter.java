@@ -1,5 +1,7 @@
 package ru.pol.service;
 
+import ru.pol.util.DepartmentCodesComparator;
+
 import java.util.*;
 
 public class DepartmentSorter {
