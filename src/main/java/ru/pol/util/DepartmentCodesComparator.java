@@ -5,7 +5,8 @@ import java.util.List;
 
 public class DepartmentCodesComparator implements Comparator<List<String>> {
 
-
+    //в рамках задания сравнение String в compareTo выполняется лексиграфически,
+    //поэтому Comparator корректно сортирует коды с значениями от 0 до 9
     @Override
     public int compare(List<String> o1, List<String> o2) {
 
@@ -19,9 +20,7 @@ public class DepartmentCodesComparator implements Comparator<List<String>> {
                 return value;
             }
         }
-
         return Integer.compare(o1.size(), o2.size());
-
     }
 
     @Override
